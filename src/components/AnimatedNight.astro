@@ -298,21 +298,32 @@
     treefour.style.fill = "";
   };
 
-  switchElement?.addEventListener("click", () => {
+  const setDayAnimation = () => {
+    document.documentElement.classList.remove("dark");
+    hideCraters();
+    auraColorsDay();
+    dayTrees();
+    switchElement.style.background = "rgb(216,216,216)";
+    localStorage.setItem("color-theme", "light");
+  };
+  const setNightAnimation = () => {
+    document.documentElement.classList.add("dark");
+    showCraters();
+    auraColorsNight();
+    nightTrees();
+    switchElement.style.background = "#242424";
+    localStorage.setItem("color-theme", "dark");
+  };
+
+  const recalculateAnimation = () => {
     if (document.documentElement.classList.contains("dark")) {
-      document.documentElement.classList.remove("dark");
-      hideCraters();
-      auraColorsDay();
-      dayTrees();
-      switchElement.style.background = "rgb(216,216,216)";
+      setDayAnimation();
     } else {
-      document.documentElement.classList.add("dark");
-      showCraters();
-      auraColorsNight();
-      nightTrees();
-      switchElement.style.background = "#242424";
+      setNightAnimation();
     }
-  });
+  };
+
+  switchElement?.addEventListener("click", recalculateAnimation);
 
   if (animatedNight) {
     let options = {
@@ -323,7 +334,6 @@
 
     let callback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
-        console.log(entry);
         const isVisible = entry.intersectionRatio >= 0.5;
         if (isVisible) {
           animatedElements.forEach((el) =>
@@ -336,5 +346,11 @@
     };
     let observer = new IntersectionObserver(callback, options);
     observer.observe(animatedNight);
+
+    if (localStorage.getItem("color-theme") === "dark") {
+      setNightAnimation();
+    } else {
+      setDayAnimation();
+    }
   }
 </script>
