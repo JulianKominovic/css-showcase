@@ -2,8 +2,22 @@
 const { title } = Astro.props;
 ---
 
-<div
-  class="w-full relative before:w-full before:h-0.5 before:absolute before:bg-zinc-800 before:bottom-1/2 before:top-1/2 mt-20 mb-10 text-zinc-500"
->
-  <span class="relative z-10 pr-4 bg-zinc-900 text-zinc-500"> {title}</span>
-</div>
+<section class="relative">
+  <div
+    class="w-full relative before:w-full before:h-0.5 before:absolute before:dark:bg-zinc-800 before:bg-zinc-300 before:bottom-1/2 before:top-1/2 mt-20 mb-10 text-zinc-500"
+  >
+    <span
+      id={title}
+      class="relative z-10 pr-4 dark:bg-zinc-900 bg-zinc-200 text-zinc-500 divider__item"
+    >
+      {title}</span
+    >
+  </div>
+  <div
+    class="text-9xl -z-10 absolute left-0 bottom-0 top-0 -rotate-90 font-black opacity-5 hidden lg:block"
+  >
+    {title}
+  </div>
+
+  <slot />
+</section>
