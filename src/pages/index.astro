@@ -2,18 +2,27 @@
 import AnimatedNight from "../components/AnimatedNight.astro";
 import Divider from "../components/Divider.astro";
 import Hero from "../components/Hero.astro";
+import NeonButton from "../components/NeonButton.astro";
+import NeonButtonHueRotation from "../components/NeonButtonHueRotation.astro";
 import Shadows from "../components/Shadows.astro";
 import Layout from "../layouts/Layout.astro";
+import StepNav from "../layouts/StepNav.astro";
 ---
 
 <Layout title="CSS Showcase">
   <main class="min-h-screen max-w-5xl mx-auto mt-10 px-8 lg:px-8 pb-32">
     <Hero />
     <AnimatedNight />
-    <Divider title={"Shadows"} />
-    <Shadows />
-    <Divider title={"Drop-shadows"} />
+
+    <Divider title={"Shadows"}>
+      <Shadows />
+      <NeonButton />
+    </Divider>
+    <Divider title={"Filters"}>
+      <NeonButtonHueRotation />
+    </Divider>
   </main>
+  <StepNav />
 </Layout>
 
 <style></style>
