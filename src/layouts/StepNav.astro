@@ -1,0 +1,119 @@
+---
+---
+
+<style is:global>
+  dot {
+    height: 13px;
+    width: 13px;
+    border: 1px solid #ebebeb;
+    border-radius: 50%;
+    display: block;
+  }
+  .connector {
+    margin-right: 6px;
+    margin-block: -6px;
+  }
+  .stepnav__item > span {
+    position: relative;
+    transform: translateX(0);
+    transition: transform 0.2s ease-in-out;
+  }
+  .stepnav__item:hover > span {
+    transform: translateX(-10px);
+    transition: transform 0.2s ease-in-out;
+  }
+  .stepnav__item:hover > span::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(270deg, rgb(75, 43, 255), rgb(233, 0, 0));
+    background-size: 400% 400%;
+
+    animation: gradient 10s infinite;
+  }
+  .stepnav__item > dot {
+    background-image: transparent;
+    transition: background-image 0.2s ease-in-out;
+  }
+  .stepnav__item:hover > dot {
+    background-image: linear-gradient(
+      to right,
+      rgb(255, 43, 43),
+      rgb(233, 128, 0)
+    );
+
+    transition: background-image 0.2s ease-in-out;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .dot__selected {
+    background-color: white;
+  }
+</style>
+
+<div
+  class="fixed top-1/2 right-4 hidden xl:flex h-screen flex-col items-end z-20"
+  id="step-nav"
+>
+</div>
+
+<script>
+  const stepNav = document.querySelector("#step-nav");
+  const dividersItems = document.querySelectorAll(".divider__item");
+  stepNav.innerHTML = "";
+  dividersItems.forEach((el, index) => {
+    stepNav.innerHTML += `<a href="#${
+      el.id
+    }" class="flex gap-4 item items-center cursor-pointer max-h-fit text-zinc-400 stepnav__item" id=${
+      el.id + "_nav"
+    }>
+    <span class="">${el.textContent}</span>
+    <dot id="${el.id}__dot"></dot>
+  </a>
+  ${
+    index < dividersItems.length - 1
+      ? '<div class="h-8 w-px connector bg-slate-50 block"></div>'
+      : ""
+  }`;
+  });
+
+  const navItems = document.querySelectorAll(".stepnav__item");
+  let options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: [0.8, 0.5, 0.3],
+  };
+
+  let callback: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      const isVisible = entry.intersectionRatio >= 0.8;
+
+      const elFound = [...navItems]
+        .find((el) => {
+          return el.id.replace("_nav", "") === entry.target.id;
+        })
+        ?.querySelector("dot");
+
+      if (isVisible) {
+        elFound?.classList.add("dot__selected");
+      } else {
+        elFound?.classList.remove("dot__selected");
+      }
+    });
+  };
+  let observer = new IntersectionObserver(callback, options);
+  dividersItems.forEach((el) => observer.observe(el));
+</script>
