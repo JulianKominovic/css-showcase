@@ -1,8 +1,13 @@
 ---
-const { title, description } = Astro.props;
+type Props = {
+  title: string;
+  description: string;
+  animated?: "mount";
+};
+const { title, description, animated }: Props = Astro.props;
 ---
 
-<header>
+<header data-animation={animated}>
   {
     title && (
       <p class="mt-4 text-xl font-bold tracking-tight text-gray-800 dark:text-gray-100 sm:text-4xl desc__item">

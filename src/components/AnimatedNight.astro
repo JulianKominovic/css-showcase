@@ -304,7 +304,6 @@
     auraColorsDay();
     dayTrees();
     switchElement.style.background = "rgb(216,216,216)";
-    localStorage.setItem("color-theme", "light");
   };
   const setNightAnimation = () => {
     document.documentElement.classList.add("dark");
@@ -312,13 +311,14 @@
     auraColorsNight();
     nightTrees();
     switchElement.style.background = "#242424";
-    localStorage.setItem("color-theme", "dark");
   };
 
   const recalculateAnimation = () => {
     if (document.documentElement.classList.contains("dark")) {
+      localStorage.setItem("color-theme", "light");
       setDayAnimation();
     } else {
+      localStorage.setItem("color-theme", "dark");
       setNightAnimation();
     }
   };

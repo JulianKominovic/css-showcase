@@ -1,0 +1,16 @@
+---
+import Description from "./Description.astro";
+---
+
+<style>
+  div {
+    height: 1000px;
+  }
+</style>
+
+<Description
+  title={"Animations!"}
+  description="We are using Astro, we cannot use Framer Motion this is not going to stop us from making animations."
+  animated={"mount"}
+/>
+<div data-animation="mount" data-ismounted="false"><p>Animate</p></div>
